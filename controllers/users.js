@@ -9,10 +9,9 @@ const errorMessages = require('../utils/constants');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-module.exports.getUser = (req, res, next) => {
-  const { email, name } = req.user;
-  User.findOne({ email, name })
-    .then((data) => res.send(data))
+module.exports.getUsers = (req, res, next) => {
+  User.find({})
+    .then((users) => res.send(users))
     .catch(next);
 };
 
