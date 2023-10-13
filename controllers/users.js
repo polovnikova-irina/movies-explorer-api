@@ -11,7 +11,7 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getUser = (req, res, next) => {
   const { email, name } = req.user;
-  User.find({ email, name })
+  User.findOne({ email, name })
     .then((data) => res.send(data))
     .catch(next);
 };
