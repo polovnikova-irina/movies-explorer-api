@@ -70,7 +70,7 @@ module.exports.deleteMovie = (req, res, next) => {
       return Movie.findByIdAndRemove(movieId);
     })
     .then(() => {
-      res.status(200).send({ message: 'Фильм удален' });
+      res.status(200).send({ message: errorMessages.MovieDeleted });
     })
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {

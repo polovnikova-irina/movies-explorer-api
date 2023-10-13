@@ -1,8 +1,17 @@
+const BadRequest = 'Некорректный запрос';
+const Unauthorized = 'Неправильные почта или пароль';
+const Forbidden = 'Доступ запрещен';
+const NotFound = 'Некорректный _id фильма';
+const ConflictError = 'Пользователь с таким email уже существует';
+const MovieDeleted = 'Фильм удален';
+const NotFoundError = 'Страница не найдена';
+
 module.exports = {
-  BadRequest: 'Некорректный запрос',
-  Unauthorized: 'Неправильные почта или пароль',
-  Forbidden: 'Доступ запрещен',
-  NotFound: 'Некорректный _id фильма',
-  ConflictError: 'Пользователь с таким email уже существует',
-  NotFoundErrorUser: 'Пользователь не найден',
+  BadRequest,
+  Unauthorized,
+  Forbidden,
+  NotFound,
+  ConflictError,
+  MovieDeleted,
+  NotFoundError,
 };
