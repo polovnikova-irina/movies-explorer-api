@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { validateaddMovie, validatedeleteMovie } = require('../utils/constants');
+const { validateaddMovie, validatedeleteMovie } = require('../utils/validation');
 const {
   getSavedMovies,
   addMovie,

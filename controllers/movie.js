@@ -3,6 +3,7 @@ const Movie = require('../models/movie');
 const BadRequestError = require('../utils/errors/BadRequestError');
 const NotFoundError = require('../utils/errors/NotFoundError');
 const ForbiddenError = require('../utils/errors/ForbiddenError');
+const errorMessages = require('../utils/constants');
 
 module.exports.getSavedMovies = (req, res, next) => {
   Movie.find({ owner: req.user._id })
@@ -41,7 +42,7 @@ module.exports.addMovie = (req, res, next) => {
   })
     .then((movie) => {
       if (!movie) {
-        throw new NotFoundError('Некорректный _id фильма');
+        throw new NotFoundError(errorMessages.NotFound);
       }
       res.status(201).send(movie);
     })
@@ -49,7 +50,7 @@ module.exports.addMovie = (req, res, next) => {
       if (err instanceof mongoose.Error.ValidationError) {
         next(new BadRequestError(err.message));
       } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
-        next(new NotFoundError('Некорректный _id фильма'));
+        next(new NotFoundError(errorMessages.NotFound));
       } else {
         next(err);
       }
@@ -61,10 +62,10 @@ module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(movieId)
     .then((movie) => {
       if (!movie) {
-        throw new NotFoundError('Фильм по указанному _id не найдена');
+        throw new NotFoundError(errorMessages.NotFound);
       }
       if (movie.owner.toString() !== req.user._id) {
-        throw new ForbiddenError('Фильм другого пользователя');
+        throw new ForbiddenError(errorMessages.Forbidden);
       }
       return Movie.findByIdAndRemove(movieId);
     })
@@ -73,9 +74,9 @@ module.exports.deleteMovie = (req, res, next) => {
     })
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
-        next(new BadRequestError('Указан некорректный _id фильма'));
+        next(new BadRequestError(errorMessages.BadRequest));
       } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
-        next(new NotFoundError('Фильм по указанному _id не найден'));
+        next(new NotFoundError(errorMessages.NotFound));
       } else {
         next(err);
       }
