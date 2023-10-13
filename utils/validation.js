@@ -31,13 +31,13 @@ const validateaddMovie = celebrate({
       .regex(
         /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/,
       ),
-    movieId: Joi.number().required(),
+    movieId: Joi.number().required().max(24),
   }),
 });
 
 const validatedeleteMovie = celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().hex().required(),
+    movieId: Joi.string().hex().required().max(24),
   }),
 });
 
@@ -45,17 +45,16 @@ const validatesingin = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required().min(5),
-  }).unknown(true),
+  }),
 });
 
 const validatesingup = celebrate({
   body: Joi.object()
     .keys({
-      name: Joi.string().min(2).max(30),
+      name: Joi.string().min(2).max(30).required(),
       email: Joi.string().required().email(),
       password: Joi.string().required().min(5),
-    })
-    .unknown(true),
+    }),
 });
 
 module.exports = {

@@ -9,8 +9,10 @@ const cors = require('cors');
 const limiter = require('./utils/limiter');
 const handleError = require('./middlewares/handleError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const config = require('./utils/config');
 
-const { PORT, DB_URL } = process.env;
+const { PORT = 3000 } = process.env;
+const { DB_URL } = config;
 
 const app = express();
 

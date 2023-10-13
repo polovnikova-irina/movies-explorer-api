@@ -5,13 +5,13 @@ const User = require('../models/user');
 const BadRequestError = require('../utils/errors/BadRequestError');
 const NotFoundError = require('../utils/errors/NotFoundError');
 const ConflictError = require('../utils/errors/ConflictError');
-const errorMessages = require('../utils/constants');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-module.exports.getUsers = (req, res, next) => {
-  User.find({})
-    .then((users) => res.send(users))
+module.exports.getUser = (req, res, next) => {
+  const { email, name } = req.user;
+  User.findOne({ email, name })
+    .then((data) => res.send(data))
     .catch(next);
 };
 
@@ -31,7 +31,7 @@ module.exports.createUser = (req, res, next) => {
       if (err instanceof mongoose.Error.ValidationError) {
         next(new BadRequestError(err.message));
       } else if (err.code === 11000) {
-        next(new ConflictError(errorMessages.ConflictError));
+        next(new ConflictError('Пользователь с таким email уже существует'));
       } else {
         next(err);
       }
@@ -52,7 +52,9 @@ module.exports.editUserData = (req, res, next) => {
       if (err instanceof mongoose.Error.ValidationError) {
         next(new BadRequestError(err.message));
       } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
-        next(new NotFoundError(errorMessages.NotFoundErrorUser));
+        next(new NotFoundError('Пользователь по указанному _id не найден'));
+      } else if (err.code === 11000) {
+        next(new ConflictError('Пользователь с таким email уже существует'));
       } else {
         next(err);
       }
