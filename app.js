@@ -11,8 +11,7 @@ const handleError = require('./middlewares/handleError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const config = require('./utils/config');
 
-const { PORT = 3000 } = process.env;
-const { DB_URL } = config;
+const { DB_URL, PORT } = config;
 
 const app = express();
 
