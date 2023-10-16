@@ -54,6 +54,7 @@ const movieSchema = new mongoose.Schema(
     },
     movieId: [{
       type: Number,
+      maxlength: [24, 'максимальная длина поля - 24'],
       required: true,
     }],
     nameRU: {

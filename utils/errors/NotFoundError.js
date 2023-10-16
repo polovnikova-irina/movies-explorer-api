@@ -1,10 +1,10 @@
-const { HTTP_STATUS_NOT_FOUND } = require('http2').constants;
+const { StatusCode } = require('constants');
 
 class NotFoundError extends Error {
   constructor(message) {
     super(message);
-    this.statusCode = HTTP_STATUS_NOT_FOUND;
+    this.statusCode = StatusCode.Unauthorized;
   }
 }
 
-module.exports = NotFoundError; // 404
+module.exports = NotFoundError;

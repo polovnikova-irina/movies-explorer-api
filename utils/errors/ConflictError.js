@@ -1,11 +1,10 @@
-const { HTTP_STATUS_CONFLICT } = require('http2').constants;
+const { StatusCode } = require('constants');
 
 class ConflictError extends Error {
   constructor(message) {
     super(message);
-    this.statusCode = HTTP_STATUS_CONFLICT;
+    this.statusCode = StatusCode.Conflict;
   }
 }
 
-// 409
 module.exports = ConflictError;
