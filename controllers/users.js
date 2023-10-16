@@ -10,16 +10,12 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getUser = (req, res, next) => {
   const userId = req.user._id;
-  console.log({ _id: userId });
   User.findOne({ _id: userId })
     .then((user) => {
       if (!user) {
         throw new NotFoundError('Пользователь не найден');
       }
-      res.status(200).send({
-        email: user.email,
-        name: user.name,
-      });
+      res.status(200).send(user);
     })
     .catch(next);
 };
