@@ -10,6 +10,7 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getUser = (req, res, next) => {
   const { email, name } = req.user;
+  console.log(req.user);
   User.findOne({ email, name })
     .then((user) => {
       if (!user) {
