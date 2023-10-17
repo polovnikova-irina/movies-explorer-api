@@ -16,8 +16,12 @@ const MovieErrorMessage = {
   BadRequest: 'Введены некорректные данные',
 };
 
-const PageError = {
+const PageErrorMessage = {
   NotFoundPageError: 'Страница не найдена',
+};
+
+const ServerErrorMessage = {
+  InternalServerError: 'На сервере произошла ошибка',
 };
 
 const StatusCode = {
@@ -28,6 +32,7 @@ const StatusCode = {
   Forbidden: 403,
   Conflict: 409,
   NotFound: 404,
+  InternalServerError: 500,
 };
 
 module.exports = {
@@ -35,5 +40,6 @@ module.exports = {
   MovieResponseMessage,
   MovieErrorMessage,
   StatusCode,
-  PageError,
+  PageErrorMessage,
+  ServerErrorMessage,
 };
