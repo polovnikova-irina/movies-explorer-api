@@ -34,14 +34,14 @@ module.exports.createUser = (req, res, next) => {
     .then((hash) => User.create({
       email, password: hash, name,
     }))
-    .then((user) => res.status(201).send({
+    .then((user) => res.status(StatusCode.Created).send({
       email: user.email, name: user.name, _id: user._id,
     }))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
-        next(new BadRequestError(err.message));
+        next(new BadRequestError(UserErrorMessage.BadRequest));
       } else if (err.code === 11000) {
-        next(new ConflictError('Пользователь с таким email уже существует'));
+        next(new ConflictError(UserErrorMessage.ConflictError));
       } else {
         next(err);
       }
