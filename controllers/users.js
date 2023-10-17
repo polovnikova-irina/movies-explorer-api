@@ -25,27 +25,23 @@ module.exports.getUser = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.createUser = (req, res, next) => {
-  const {
-    email, name,
-  } = req.body;
-  bcrypt
-    .hash(req.body.password, 10)
-    .then((hash) => User.create({
-      email, password: hash, name,
-    }))
-    .then((user) => res.status(StatusCode.Created).send({
+module.exports.createUser = async (req, res, next) => {
+  try {
+    const { email, name, password } = req.body;
+    const hash = await bcrypt.hash(password, 10);
+    const user = await User.create({ email, password: hash, name });
+
+    return res.status(StatusCode.Created).send({
       email: user.email, name: user.name, _id: user._id,
-    }))
-    .catch((err) => {
-      if (err instanceof mongoose.Error.ValidationError) {
-        next(new BadRequestError(UserErrorMessage.BadRequest));
-      } else if (err.code === 11000) {
-        next(new ConflictError(UserErrorMessage.ConflictError));
-      } else {
-        next(err);
-      }
     });
+  } catch (err) {
+    if (err instanceof mongoose.Error.ValidationError) {
+      return next(new BadRequestError(UserErrorMessage.BadRequest));
+    } if (err.code === 11000) {
+      return next(new ConflictError(UserErrorMessage.ConflictError));
+    }
+    return next(err);
+  }
 };
 
 module.exports.editUserData = (req, res, next) => {
