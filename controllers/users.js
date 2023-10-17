@@ -40,6 +40,8 @@ module.exports.createUser = (req, res, next) => {
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
         next(new BadRequestError(UserErrorMessage.BadRequest));
+      } else if (err.code === 11000) {
+        next(new ConflictError(UserErrorMessage.ConflictError));
       } else {
         next(err);
       }
