@@ -52,11 +52,11 @@ const movieSchema = new mongoose.Schema(
       ref: 'user',
       required: [true, 'Поле должно быть заполнено'],
     },
-    movieId: [{
+    movieId: {
       type: Number,
       maxlength: [24, 'максимальная длина поля - 24'],
       required: true,
-    }],
+    },
     nameRU: {
       type: String,
       required: [true, 'Поле должно быть заполнено'],
